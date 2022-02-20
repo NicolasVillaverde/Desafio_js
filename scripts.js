@@ -2,7 +2,7 @@ const inflation = 3.641;
 const anioActual = 2020;
 let acumuladorValorFinal = 1.03641;
 
-let inputValue = parseInt(prompt(`Ingrese un valor que le gustaria actualizar por inflacion`));
+let inputValue = parseFloat(prompt(`Ingrese un valor que le gustaria actualizar por inflacion`));
 let yearValue = parseInt(prompt(`Ingrese el año del que quiziera conocer el valor`));
 
 // Calcula los años a contemplar
