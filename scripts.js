@@ -1,52 +1,64 @@
-const inflation = 3.641;
-const anioActual = 2020;
-let acumuladorValorFinal = 1.03641;
+console.log(`Primera entrega del Proyecto Final`);
 
-let inputValue = parseFloat(prompt(`Ingrese un valor que le gustaria actualizar por inflacion`));
-let yearValue = parseInt(prompt(`Ingrese el año del que quiziera conocer el valor`));
+const listadoDeOfertas = [];
+let cadenaDeOfertas = [];
+let indice = ``;
 
-// Calcula los años a contemplar
-function calcularAnioMenor(valoranio) {
-    return anioActual - valoranio;
-}
-
-function calcularAnioMayor(valoranio) {
-    return valoranio - anioActual;
-}
-
-let periodoAnios;
-
-if (yearValue > anioActual) {
-    periodoAnios = calcularAnioMayor(yearValue);
-} else {
-    periodoAnios = calcularAnioMenor(yearValue);
-}
-
-//Calcula el indice para indexado
-function elevadoALaPotencia(potencia) {
-    for (let i = 1; i <= potencia; i++) {
-        acumuladorValorFinal = acumuladorValorFinal * (1 + 0.03641);
+class oferta {
+    constructor(trabajo, modalidad, pais) {
+        this.trabajo = trabajo;
+        this.modalidad = modalidad;
+        this.pais = pais;
     }
-    return acumuladorValorFinal;
 }
 
-let valorIndex = elevadoALaPotencia(periodoAnios);
+// Ingreso de ofertas y caracteristicas
 
-//Calcula el valor menos la indexacion por los años transcurridos
-function calcularValorActualizadoMenor(valor, index) {
-    return valor / index;
+while (true) {
+    let ingresoOferta = confirm(`Desea ingresar una nueva oferta?\n Presione Aceptar para continuar o Cancelar para salir`);
+    if (ingresoOferta == true) {
+        const nuevoTrabajo = prompt(`Nombre de la oferta quieres incluir?`).toLowerCase();
+        const nuevaModalidad = prompt(`Modalidad de la oferta quieres incluir?`).toLowerCase();
+        const nuevoPais = prompt(`Pais de la oferta quieres incluir?`).toLowerCase();
+
+        const nuevaOferta = new oferta(nuevoTrabajo, nuevaModalidad, nuevoPais);
+
+        listadoDeOfertas.push(nuevaOferta);
+    } else {
+        break;
+    }
 }
 
-function calcularValorActualizadoMayor(valor, index) {
-    return valor * index;
+// Crear indice de cadena de ofertas
+
+function indiceDeCadena(arr, fn) {
+    indice = ``;
+    const trabajos = arr.map((el) => el.trabajo);
+    fn(trabajos);
 }
 
-let valorFinal;
+function crearIndice(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        indice += `${i + 1}: ${arr[i]}\n`;
+    }
+}
+indiceDeCadena(listadoDeOfertas, crearIndice);
 
-if (yearValue > anioActual) {
-    valorFinal = parseInt(calcularValorActualizadoMayor(inputValue, valorIndex));
+// Eliminar ofertas y mostrar ofertas disponibles
+
+if (listadoDeOfertas.length > 0) {
+    let eliminarActividad = confirm(`Las ofertas de trabajo ingresadas son \n${indice}. Deseas eliminar alguna?\n Ingrese SI o NO`);
+
+    if (eliminarActividad == true) {
+        let ofertasAEliminar = parseInt(prompt(`Qué ofertas de trabajo quieres eliminar? ${indice}\n Ingrese el numero de la actividad`));
+        ofertasAEliminar--;
+
+        listadoDeOfertas.splice(ofertasAEliminar, 1);
+        indiceDeCadena(listadoDeOfertas, crearIndice);
+        alert(`Las ofertas disponibles son \n${indice}`);
+    } else {
+        alert(`Las ofertas disponibles son \n${indice}`);
+    }
 } else {
-    valorFinal = parseInt(calcularValorActualizadoMenor(inputValue, valorIndex));
+    alert(`No hay ofertas disponibles`);
 }
-
-alert(`${inputValue} dolares en el 2022, equivalen a ${valorFinal} dolares del año ${yearValue}`);

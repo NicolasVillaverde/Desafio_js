@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;600&family=Sansita+Swashed:wght@500&display=swap");
+.wrapper {
+    background-color: #63a4ff;
+    background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
+    min-height: 100vh;
+    font-family: "Fredoka", sans-serif;
+}
+.hero__text {
+    font-family: "Sansita Swashed", cursive;
+}
+.card {
+    background-color: aliceblue;
+}
