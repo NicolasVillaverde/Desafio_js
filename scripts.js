@@ -1,7 +1,5 @@
 console.log(`Desafio Tema: To do App`);
 
-crearOferta();
-
 const botonAgregar = document.getElementById(`btn__agregar`);
 botonAgregar.addEventListener(`click`, obtenerDatos);
 
