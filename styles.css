@@ -1,13 +1,47 @@
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;600&family=Sansita+Swashed:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@600&display=swap");
 .wrapper {
-    background-color: #63a4ff;
-    background-image: linear-gradient(315deg, #63a4ff 0%, #83eaf1 74%);
     min-height: 100vh;
-    font-family: "Fredoka", sans-serif;
+    background-color: #537895;
+    background-image: linear-gradient(315deg, #537895 0%, #09203f 74%);
 }
-.hero__text {
-    font-family: "Sansita Swashed", cursive;
+
+h1 {
+    color: white;
+    font-family: "League Spartan", sans-serif;
+    font-weight: 400;
+    font-size: 7rem;
 }
-.card {
+p {
+    color: white;
+    background-color: rgb(44, 44, 44);
+    padding: 0.5rem;
+    border-radius: 0.4rem;
+    margin: 0;
+}
+
+span {
+    font-weight: 500;
+    margin-left: 1rem;
+}
+.input__tareas {
+    width: 100%;
+    background-color: gainsboro;
+    opacity: 0.85;
+}
+.tarjeta__ofertas {
+    width: 95%;
     background-color: aliceblue;
+    opacity: 0.85;
 }
+
+@media screen and (max-width: 768px) {
+    .input__tareas {
+        flex-direction: column;
+    }
+    h1 {
+        font-size: 3rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+} ;
