@@ -33,6 +33,11 @@ span {
     background-color: aliceblue;
     opacity: 0.85;
 }
+.filtros {
+    width: 95%;
+    background-color: grey;
+    opacity: 0.85;
+}
 
 @media screen and (max-width: 768px) {
     .input__tareas {
