@@ -57,10 +57,9 @@ function crearOferta() {
     for (let i = 0; i < tarjetas.length; ++i) {
         tarjetas[i].remove();
     }
-    if (database.length === null){
-        break
-    }else{
-
+    if (database.length === null) {
+        return;
+    } else {
         for (let i = 0; i < database.length; i++) {
             let titulo = database[i].nombre;
             let descripcion = database[i].descripcion;
@@ -69,7 +68,7 @@ function crearOferta() {
             let propiedad3 = database[i].remote;
             let propiedad4 = database[i].division;
             let propiedad5 = database[i].seniority;
-    
+
             const root = document.getElementById(`root`);
             const nuevoDivTarjeta = document.createElement(`div`);
             const nuevoDivTexto = document.createElement(`div`);
@@ -81,23 +80,23 @@ function crearOferta() {
             const nuevoP3 = document.createElement(`span`);
             const nuevoP4 = document.createElement(`p`);
             const nuevoP5 = document.createElement(`p`);
-    
+
             nuevoDivTarjeta.className += "tarjeta__ofertas d-flex justify-content-between align-items-center p-4 m-1 rounded-3";
             nuevoDivPropiedades.className += "d-flex gap-2 align-items-baseline";
             nuevoP3.className += "badge bg-warning rounded-pill fs-6";
-    
+
             nuevoH3Titulo.innerText = titulo;
             nuevoSpanDescripcion.innerText = descripcion;
             nuevoP1.innerText = propiedad1;
             nuevoP2.innerText = propiedad2;
-    
+
             if (propiedad3 == true) {
                 nuevoP3.innerText = "Remote";
             }
-    
+
             nuevoP4.innerText = propiedad4;
             nuevoP5.innerText = propiedad5;
-    
+
             root.appendChild(nuevoDivTarjeta);
             nuevoDivTarjeta.appendChild(nuevoDivTexto);
             nuevoDivTexto.appendChild(nuevoH3Titulo);
