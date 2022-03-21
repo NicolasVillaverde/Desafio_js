@@ -57,7 +57,7 @@ function crearOferta() {
     for (let i = 0; i < tarjetas.length; ++i) {
         tarjetas[i].remove();
     }
-    if (database.length === null) {
+    if (database === null) {
         return;
     } else {
         for (let i = 0; i < database.length; i++) {
