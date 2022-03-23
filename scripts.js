@@ -38,15 +38,10 @@ function obtenerDatos() {
 
     let nuevaOferta = new oferta(nombre, descripcion, jornada, lugar, remote, division, seniority);
 
-    if (localStorage.getItem("oferta") === null) {
-        let arrOfertas = [];
-        arrOfertas.push(nuevaOferta);
-        localStorage.setItem("oferta", JSON.stringify(arrOfertas));
-    } else {
-        let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-        arrOfertas.push(nuevaOferta);
-        localStorage.setItem("oferta", JSON.stringify(arrOfertas));
-    }
+    let arrOfertas = JSON.parse(localStorage.getItem("oferta")) || [];
+    arrOfertas.push(nuevaOferta);
+    localStorage.setItem("oferta", JSON.stringify(arrOfertas));
+
     crearOferta();
 }
 
@@ -90,9 +85,7 @@ function crearOferta() {
             nuevoP1.innerText = propiedad1;
             nuevoP2.innerText = propiedad2;
 
-            if (propiedad3 == true) {
-                nuevoP3.innerText = "Remote";
-            }
+            propiedad3 === true && (nuevoP3.innerText = "Remote");
 
             nuevoP4.innerText = propiedad4;
             nuevoP5.innerText = propiedad5;
