@@ -8,11 +8,8 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
 
-const filtroFront = document.getElementById(`btn__front`);
-filtroFront.addEventListener(`click`, filtrarDatosFrontEnd);
-
-const filtroBack = document.getElementById(`btn__back`);
-filtroBack.addEventListener(`click`, filtrarDatosBackEnd);
+const filtroDivision = document.getElementById(`btn__division`);
+filtroDivision.addEventListener(`click`, filtrarDatosDivision);
 
 // FUNCION OBTIENE DATOS DEL FORMULARIO, CREA BASE DE DATOS O ACTUALIZA Y DISPARA FUNCION PARA VISUALIZAR OFERTAS
 function obtenerDatos() {
@@ -42,66 +39,37 @@ function obtenerDatos() {
     arrOfertas.push(nuevaOferta);
     localStorage.setItem("oferta", JSON.stringify(arrOfertas));
 
+    Toastify({
+        text: "Oferta cargada con éxito!",
+        duration: 5000,
+        gravity: "bottom",
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+    }).showToast();
+
     crearOferta();
 }
 
-// CREA EN EL DOM LA VISUALIZACION DE LAS OFERTAS
+//CREA VISUALIZACION DE OFERTAS EN EL DOM
 function crearOferta() {
+    eliminarOfertas();
+    const contendorOfertas = document.querySelector("#contedor__ofertas");
     let database = JSON.parse(localStorage.getItem("oferta"));
-    const tarjetas = document.querySelectorAll(".tarjeta__ofertas");
-    for (let i = 0; i < tarjetas.length; ++i) {
-        tarjetas[i].remove();
-    }
-    if (database === null) {
-        return;
-    } else {
-        for (let i = 0; i < database.length; i++) {
-            let titulo = database[i].nombre;
-            let descripcion = database[i].descripcion;
-            let propiedad1 = database[i].jornada;
-            let propiedad2 = database[i].lugar;
-            let propiedad3 = database[i].remote;
-            let propiedad4 = database[i].division;
-            let propiedad5 = database[i].seniority;
+    const template = document.querySelector("#template-ofertas").content;
+    const fragment = document.createDocumentFragment();
 
-            const root = document.getElementById(`root`);
-            const nuevoDivTarjeta = document.createElement(`div`);
-            const nuevoDivTexto = document.createElement(`div`);
-            const nuevoH3Titulo = document.createElement(`h3`);
-            const nuevoSpanDescripcion = document.createElement(`span`);
-            const nuevoDivPropiedades = document.createElement(`div`);
-            const nuevoP1 = document.createElement(`p`);
-            const nuevoP2 = document.createElement(`p`);
-            const nuevoP3 = document.createElement(`span`);
-            const nuevoP4 = document.createElement(`p`);
-            const nuevoP5 = document.createElement(`p`);
-
-            nuevoDivTarjeta.className += "tarjeta__ofertas d-flex justify-content-between align-items-center p-4 m-1 rounded-3";
-            nuevoDivPropiedades.className += "d-flex gap-2 align-items-baseline";
-            nuevoP3.className += "badge bg-warning rounded-pill fs-6";
-
-            nuevoH3Titulo.innerText = titulo;
-            nuevoSpanDescripcion.innerText = descripcion;
-            nuevoP1.innerText = propiedad1;
-            nuevoP2.innerText = propiedad2;
-
-            propiedad3 === true && (nuevoP3.innerText = "Remote");
-
-            nuevoP4.innerText = propiedad4;
-            nuevoP5.innerText = propiedad5;
-
-            root.appendChild(nuevoDivTarjeta);
-            nuevoDivTarjeta.appendChild(nuevoDivTexto);
-            nuevoDivTexto.appendChild(nuevoH3Titulo);
-            nuevoDivTexto.appendChild(nuevoSpanDescripcion);
-            nuevoDivTarjeta.appendChild(nuevoDivPropiedades);
-            nuevoDivPropiedades.appendChild(nuevoP1);
-            nuevoDivPropiedades.appendChild(nuevoP2);
-            nuevoH3Titulo.appendChild(nuevoP3);
-            nuevoDivPropiedades.appendChild(nuevoP4);
-            nuevoDivPropiedades.appendChild(nuevoP5);
-        }
-    }
+    database.forEach((el) => {
+        template.querySelector(".oferta__tittle").textContent = el.nombre;
+        template.querySelector(".oferta__descripcion").textContent = el.descripcion;
+        template.querySelector(".oferta__jornada").textContent = el.jornada;
+        template.querySelector(".oferta__lugar").textContent = el.lugar;
+        template.querySelector(".oferta__division").textContent = el.division;
+        template.querySelector(".oferta__seniority").textContent = el.seniority;
+        const clone = template.cloneNode(true);
+        fragment.appendChild(clone);
+    });
+    contendorOfertas.appendChild(fragment);
 }
 
 // OBTIENE DATOS DEL LOCAL STORAGE, ELIMINA TODO Y ACTULIZA EL LOCAL STORAGE, LUEGO ELIMINA TODO ELEMENTO DEL DOM
@@ -112,7 +80,12 @@ function eliminarTodo() {
 
     localStorage.setItem("oferta", JSON.stringify(arrOfertas));
 
+    eliminarOfertas();
+}
+// ELIMINA DEL DOM LAS OFERTAS
+function eliminarOfertas() {
     const tarjetas = document.querySelectorAll(".tarjeta__ofertas");
+    console.log(tarjetas);
     for (let i = 0; i < tarjetas.length; ++i) {
         tarjetas[i].remove();
     }
@@ -120,71 +93,33 @@ function eliminarTodo() {
 
 // FILTROS
 
-function filtrarDatosFrontEnd() {
+function filtrarDatosDivision() {
+    const filter = filtroDivision.value;
+    console.log(filter);
     let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    console.log(arrOfertas);
-    const result = arrOfertas.filter((objeto) => objeto.division == "Front-End");
-    mostrarOfertasFiltradas(result);
-}
-function filtrarDatosBackEnd() {
-    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    console.log(arrOfertas);
-    const result = arrOfertas.filter((objeto) => objeto.division == "Back-End");
+    const result = arrOfertas.filter((objeto) => objeto.division == filter);
+    console.log(result);
     mostrarOfertasFiltradas(result);
 }
 
 function mostrarOfertasFiltradas(database) {
-    const tarjetas = document.querySelectorAll(".tarjeta__ofertas");
-    for (let i = 0; i < tarjetas.length; ++i) {
-        tarjetas[i].remove();
-    }
-
+    eliminarOfertas();
+    const dinamico = document.querySelector("#div_ofertas");
     for (let i = 0; i < database.length; i++) {
-        let titulo = database[i].nombre;
-        let descripcion = database[i].descripcion;
-        let propiedad1 = database[i].jornada;
-        let propiedad2 = database[i].lugar;
-        let propiedad3 = database[i].remote;
-        let propiedad4 = database[i].division;
-        let propiedad5 = database[i].seniority;
-
-        const root = document.getElementById(`root`);
-        const nuevoDivTarjeta = document.createElement(`div`);
-        const nuevoDivTexto = document.createElement(`div`);
-        const nuevoH3Titulo = document.createElement(`h3`);
-        const nuevoSpanDescripcion = document.createElement(`span`);
-        const nuevoDivPropiedades = document.createElement(`div`);
-        const nuevoP1 = document.createElement(`p`);
-        const nuevoP2 = document.createElement(`p`);
-        const nuevoP3 = document.createElement(`span`);
-        const nuevoP4 = document.createElement(`p`);
-        const nuevoP5 = document.createElement(`p`);
-
-        nuevoDivTarjeta.className += "tarjeta__ofertas d-flex justify-content-between align-items-center p-4 m-1 rounded-3";
-        nuevoDivPropiedades.className += "d-flex gap-2 align-items-baseline";
-        nuevoP3.className += "badge bg-warning rounded-pill fs-6";
-
-        nuevoH3Titulo.innerText = titulo;
-        nuevoSpanDescripcion.innerText = descripcion;
-        nuevoP1.innerText = propiedad1;
-        nuevoP2.innerText = propiedad2;
-
-        if (propiedad3 == true) {
-            nuevoP3.innerText = "Remote";
-        }
-
-        nuevoP4.innerText = propiedad4;
-        nuevoP5.innerText = propiedad5;
-
-        root.appendChild(nuevoDivTarjeta);
-        nuevoDivTarjeta.appendChild(nuevoDivTexto);
-        nuevoDivTexto.appendChild(nuevoH3Titulo);
-        nuevoDivTexto.appendChild(nuevoSpanDescripcion);
-        nuevoDivTarjeta.appendChild(nuevoDivPropiedades);
-        nuevoDivPropiedades.appendChild(nuevoP1);
-        nuevoDivPropiedades.appendChild(nuevoP2);
-        nuevoH3Titulo.appendChild(nuevoP3);
-        nuevoDivPropiedades.appendChild(nuevoP4);
-        nuevoDivPropiedades.appendChild(nuevoP5);
+        const fetch = document.querySelector("#div_ofertas").innerHTML;
+        const remoto = database[i].remote == true ? true : "d-none";
+        dinamico.innerHTML =
+            `<div id="cards${i}" class="tarjeta__oferta d-flex justify-content-between align-items-center p-4 my-2 rounded-3">
+                <div>
+                    <h3>${database[i].nombre}<span class="badge bg-warning rounded-pill fs-6 ${remoto}">Remoto</span></h2>
+                    <span>${database[i].descripcion}</span>
+                </div>
+                <div class="d-flex gap-2 align-items-baseline">
+                    <p>${database[i].jornada}</p>
+                    <p>${database[i].lugar}</p>
+                    <p>${database[i].division}</p>
+                    <p>${database[i].seniority}</p>
+                </div>
+            </div>` + fetch;
     }
 }

@@ -4,7 +4,6 @@
     background-color: #537895;
     background-image: linear-gradient(315deg, #537895 0%, #09203f 74%);
 }
-
 h1 {
     color: white;
     font-family: "League Spartan", sans-serif;
@@ -12,13 +11,14 @@ h1 {
     font-size: 7rem;
 }
 p {
-    color: white;
-    background-color: rgb(44, 44, 44);
-    padding: 0.5rem;
-    border-radius: 0.4rem;
+    color: black;
+    font-weight: 600;
+    background-color: khaki;
+    text-decoration: none;
+    padding: 0.75rem;
+    border-radius: 1.5rem;
     margin: 0;
 }
-
 span {
     font-weight: 500;
     margin-left: 1rem;
@@ -28,8 +28,10 @@ span {
     background-color: gainsboro;
     opacity: 0.85;
 }
-.tarjeta__ofertas {
+.ofertas__section {
     width: 95%;
+}
+.tarjeta__ofertas {
     background-color: aliceblue;
     opacity: 0.85;
 }
