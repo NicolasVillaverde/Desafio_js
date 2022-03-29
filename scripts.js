@@ -58,18 +58,21 @@ function crearOferta() {
     let database = JSON.parse(localStorage.getItem("oferta"));
     const template = document.querySelector("#template-ofertas").content;
     const fragment = document.createDocumentFragment();
-
-    database.forEach((el) => {
-        template.querySelector(".oferta__tittle").textContent = el.nombre;
-        template.querySelector(".oferta__descripcion").textContent = el.descripcion;
-        template.querySelector(".oferta__jornada").textContent = el.jornada;
-        template.querySelector(".oferta__lugar").textContent = el.lugar;
-        template.querySelector(".oferta__division").textContent = el.division;
-        template.querySelector(".oferta__seniority").textContent = el.seniority;
-        const clone = template.cloneNode(true);
-        fragment.appendChild(clone);
-    });
-    contendorOfertas.appendChild(fragment);
+    if (database === null) {
+        return;
+    } else {
+        database.forEach((el) => {
+            template.querySelector(".oferta__tittle").textContent = el.nombre;
+            template.querySelector(".oferta__descripcion").textContent = el.descripcion;
+            template.querySelector(".oferta__jornada").textContent = el.jornada;
+            template.querySelector(".oferta__lugar").textContent = el.lugar;
+            template.querySelector(".oferta__division").textContent = el.division;
+            template.querySelector(".oferta__seniority").textContent = el.seniority;
+            const clone = template.cloneNode(true);
+            fragment.appendChild(clone);
+        });
+        contendorOfertas.appendChild(fragment);
+    }
 }
 
 // OBTIENE DATOS DEL LOCAL STORAGE, ELIMINA TODO Y ACTULIZA EL LOCAL STORAGE, LUEGO ELIMINA TODO ELEMENTO DEL DOM
