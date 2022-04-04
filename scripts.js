@@ -1,6 +1,13 @@
 console.log(`Desafio Tema: To do App`);
 
-crearOferta();
+fetch(`./data/data.json`)
+    .then((r) => r.json())
+    .then((data) => {
+        let arrOfertas = data || [];
+        localStorage.setItem("oferta", JSON.stringify(arrOfertas));
+    });
+
+let database = JSON.parse(localStorage.getItem("oferta"));
 
 const botonAgregar = document.getElementById(`btn__agregar`);
 botonAgregar.addEventListener(`click`, obtenerDatos);
@@ -8,8 +15,19 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
 
-const filtroDivision = document.getElementById(`btn__division`);
-filtroDivision.addEventListener(`click`, filtrarDatosDivision);
+const filtroDivisionFront = document.getElementById(`btn__front`);
+filtroDivisionFront.addEventListener(`click`, filtrarDatosFrontEnd);
+
+const filtroDivisionBack = document.getElementById(`btn__back`);
+filtroDivisionBack.addEventListener(`click`, filtrarDatosBackEnd);
+
+const filtroPlaceArg = document.getElementById(`btn__arg`);
+filtroPlaceArg.addEventListener(`click`, filtrarDatosArg);
+
+const filtroPlaceUsa = document.getElementById(`btn__usa`);
+filtroPlaceUsa.addEventListener(`click`, filtrarDatosUsa);
+
+crearOferta(database);
 
 // FUNCION OBTIENE DATOS DEL FORMULARIO, CREA BASE DE DATOS O ACTUALIZA Y DISPARA FUNCION PARA VISUALIZAR OFERTAS
 function obtenerDatos() {
@@ -48,14 +66,13 @@ function obtenerDatos() {
         },
     }).showToast();
 
-    crearOferta();
+    crearOferta(arrOfertas);
 }
 
 //CREA VISUALIZACION DE OFERTAS EN EL DOM
-function crearOferta() {
+function crearOferta(database) {
     eliminarOfertas();
     const contendorOfertas = document.querySelector("#contedor__ofertas");
-    let database = JSON.parse(localStorage.getItem("oferta"));
     const template = document.querySelector("#template-ofertas").content;
     const fragment = document.createDocumentFragment();
     if (database === null) {
@@ -96,33 +113,35 @@ function eliminarOfertas() {
 
 // FILTROS
 
-function filtrarDatosDivision() {
-    const filter = filtroDivision.value;
-    console.log(filter);
+function filtrarDatosFrontEnd() {
     let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    const result = arrOfertas.filter((objeto) => objeto.division == filter);
+    const result = arrOfertas.filter((objeto) => objeto.division === "Front-End");
+    console.log(result);
+    mostrarOfertasFiltradas(result);
+}
+
+function filtrarDatosBackEnd() {
+    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
+    const result = arrOfertas.filter((objeto) => objeto.division === "Back-End");
+    console.log(result);
+    mostrarOfertasFiltradas(result);
+}
+
+function filtrarDatosArg() {
+    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
+    const result = arrOfertas.filter((objeto) => objeto.lugar === "ARG");
+    console.log(result);
+    mostrarOfertasFiltradas(result);
+}
+
+function filtrarDatosUsa() {
+    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
+    const result = arrOfertas.filter((objeto) => objeto.lugar === "USA");
     console.log(result);
     mostrarOfertasFiltradas(result);
 }
 
 function mostrarOfertasFiltradas(database) {
     eliminarOfertas();
-    const dinamico = document.querySelector("#div_ofertas");
-    for (let i = 0; i < database.length; i++) {
-        const fetch = document.querySelector("#div_ofertas").innerHTML;
-        const remoto = database[i].remote == true ? true : "d-none";
-        dinamico.innerHTML =
-            `<div id="cards${i}" class="tarjeta__oferta d-flex justify-content-between align-items-center p-4 my-2 rounded-3">
-                <div>
-                    <h3>${database[i].nombre}<span class="badge bg-warning rounded-pill fs-6 ${remoto}">Remoto</span></h2>
-                    <span>${database[i].descripcion}</span>
-                </div>
-                <div class="d-flex gap-2 align-items-baseline">
-                    <p>${database[i].jornada}</p>
-                    <p>${database[i].lugar}</p>
-                    <p>${database[i].division}</p>
-                    <p>${database[i].seniority}</p>
-                </div>
-            </div>` + fetch;
-    }
+    crearOferta(database);
 }

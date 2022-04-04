@@ -1,0 +1,38 @@
+[
+    {
+        "nombre": "Front end developer",
+        "descripcion": "Trabajo para front-end developer. HTML CSS JS BOOSTRAP",
+        "division": "Front-End",
+        "lugar": "USA",
+        "jornada": "Part-Time",
+        "remote": false,
+        "seniority": "Trainee"
+    },
+    {
+        "nombre": "Back end developer",
+        "descripcion": "Trabajo para back-end developer. MERN STACK",
+        "division": "Back-End",
+        "lugar": "ARG",
+        "jornada": "Full-Time",
+        "remote": true,
+        "seniority": "Senior"
+    },
+    {
+        "nombre": "Java developer",
+        "descripcion": "Trabajo para JAVA developer.",
+        "division": "Back-End",
+        "lugar": "ARG",
+        "jornada": "Part-Time",
+        "remote": true,
+        "seniority": "Senior"
+    },
+    {
+        "nombre": "UX developer",
+        "descripcion": "Trabajo para UX developer.",
+        "division": "Front-End",
+        "lugar": "USA",
+        "jornada": "Full-Time",
+        "remote": false,
+        "seniority": "Junior"
+    }
+]
