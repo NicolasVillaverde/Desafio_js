@@ -1,6 +1,6 @@
 console.log(`Desafio Tema: To do App`);
 
-fetch(`./data/data.json`)
+fetch(`./public/data/data.json`)
     .then((r) => r.json())
     .then((data) => {
         let arrOfertas = data || [];
