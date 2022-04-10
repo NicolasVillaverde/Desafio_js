@@ -14,7 +14,14 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
-
+(function () {
+    if (window.localStorage) {
+        if (!localStorage.getItem("firstLoad")) {
+            localStorage["firstLoad"] = true;
+            window.location.reload();
+        } else localStorage.removeItem("firstLoad");
+    }
+})();
 crearOferta(database);
 
 // FUNCION OBTIENE DATOS DEL FORMULARIO, CREA BASE DE DATOS O ACTUALIZA Y DISPARA FUNCION PARA VISUALIZAR OFERTAS
