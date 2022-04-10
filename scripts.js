@@ -1,4 +1,4 @@
-console.log(`Desafio Tema: To do App`);
+console.log(`Proyecto Final: Listado de Ofertas de Trabajo con Filtrado`);
 
 fetch(`./public/data/data.json`)
     .then((r) => r.json())
@@ -14,18 +14,6 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
-
-const filtroDivisionFront = document.getElementById(`btn__front`);
-filtroDivisionFront.addEventListener(`click`, filtrarDatosFrontEnd);
-
-const filtroDivisionBack = document.getElementById(`btn__back`);
-filtroDivisionBack.addEventListener(`click`, filtrarDatosBackEnd);
-
-const filtroPlaceArg = document.getElementById(`btn__arg`);
-filtroPlaceArg.addEventListener(`click`, filtrarDatosArg);
-
-const filtroPlaceUsa = document.getElementById(`btn__usa`);
-filtroPlaceUsa.addEventListener(`click`, filtrarDatosUsa);
 
 crearOferta(database);
 
@@ -85,6 +73,10 @@ function crearOferta(database) {
             template.querySelector(".oferta__lugar").textContent = el.lugar;
             template.querySelector(".oferta__division").textContent = el.division;
             template.querySelector(".oferta__seniority").textContent = el.seniority;
+            template.querySelector(".oferta__remote").textContent = "";
+            if (el.remote === true) {
+                template.querySelector(".oferta__remote").textContent = "REMOTO";
+            }
             const clone = template.cloneNode(true);
             fragment.appendChild(clone);
         });
@@ -105,43 +97,33 @@ function eliminarTodo() {
 // ELIMINA DEL DOM LAS OFERTAS
 function eliminarOfertas() {
     const tarjetas = document.querySelectorAll(".tarjeta__ofertas");
-    console.log(tarjetas);
     for (let i = 0; i < tarjetas.length; ++i) {
         tarjetas[i].remove();
     }
 }
 
 // FILTROS
+const filtro = document.getElementById(`input`);
+filtro.addEventListener("keyup", filtros);
 
-function filtrarDatosFrontEnd() {
-    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    const result = arrOfertas.filter((objeto) => objeto.division === "Front-End");
-    console.log(result);
-    mostrarOfertasFiltradas(result);
-}
-
-function filtrarDatosBackEnd() {
-    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    const result = arrOfertas.filter((objeto) => objeto.division === "Back-End");
-    console.log(result);
-    mostrarOfertasFiltradas(result);
-}
-
-function filtrarDatosArg() {
-    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    const result = arrOfertas.filter((objeto) => objeto.lugar === "ARG");
-    console.log(result);
-    mostrarOfertasFiltradas(result);
-}
-
-function filtrarDatosUsa() {
-    let arrOfertas = JSON.parse(localStorage.getItem("oferta"));
-    const result = arrOfertas.filter((objeto) => objeto.lugar === "USA");
-    console.log(result);
-    mostrarOfertasFiltradas(result);
-}
-
-function mostrarOfertasFiltradas(database) {
-    eliminarOfertas();
+function filtros() {
+    let filtro = this.value;
+    let data = JSON.parse(localStorage.getItem("oferta"));
+    let arrdata = Array.from(data);
+    const database = filtrarDatos(filtro, data);
     crearOferta(database);
+}
+
+function filtrarDatos(value, data) {
+    const arrFiltrado = [];
+
+    for (let i = 0; i < data.length; i++) {
+        value = value.toLowerCase();
+        let name = data[i].nombre.toLowerCase();
+
+        if (name.includes(value)) {
+            arrFiltrado.push(data[i]);
+        }
+    }
+    return arrFiltrado;
 }
