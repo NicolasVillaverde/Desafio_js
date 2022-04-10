@@ -14,15 +14,12 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
-(function () {
-    if (window.localStorage) {
-        if (!localStorage.getItem("firstLoad")) {
-            localStorage["firstLoad"] = true;
-            window.location.reload();
-        } else localStorage.removeItem("firstLoad");
-    }
-})();
-crearOferta(database);
+
+if (database == null) {
+    crearOferta(arrOfertas);
+    console.log("loaded from json");
+} else crearOferta(database);
+console.log("loaded from local");
 
 // FUNCION OBTIENE DATOS DEL FORMULARIO, CREA BASE DE DATOS O ACTUALIZA Y DISPARA FUNCION PARA VISUALIZAR OFERTAS
 function obtenerDatos() {
