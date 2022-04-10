@@ -5,6 +5,7 @@ fetch(`./public/data/data.json`)
     .then((data) => {
         let arrOfertas = data || [];
         localStorage.setItem("oferta", JSON.stringify(arrOfertas));
+        crearOferta(data);
     });
 
 let database = JSON.parse(localStorage.getItem("oferta"));
@@ -14,12 +15,6 @@ botonAgregar.addEventListener(`click`, obtenerDatos);
 
 const botonReset = document.getElementById(`btn__reset`);
 botonReset.addEventListener(`click`, eliminarTodo);
-
-if (database == null) {
-    crearOferta(arrOfertas);
-    console.log("loaded from json");
-} else crearOferta(database);
-console.log("loaded from local");
 
 // FUNCION OBTIENE DATOS DEL FORMULARIO, CREA BASE DE DATOS O ACTUALIZA Y DISPARA FUNCION PARA VISUALIZAR OFERTAS
 function obtenerDatos() {
